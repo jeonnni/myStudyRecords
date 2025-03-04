@@ -1,3 +1,5 @@
+## 용어정리
+
 #### 자바란
 > 자바(Java)는 다양한 프로그램을 만들 수 있는 인기 있는 프로그래밍 언어
 > 운영체제에 관계없이 실행할 수 있다는 특징
@@ -49,3 +51,67 @@ ___
 > 컨트롤러 → 모델 → 데이터 → 모델
 
 > 모델 → 뷰 → 화면 출력 → 클라이언트
+
+<br>
+<br>
+<br>
+
+
+## MVC 패턴을 활용한 뷰 템플릿 페이지 만드는 법
+> mustache 는 뷰 템플릿을 만드는 도구, 즉 뷰 템플릿 엔진을 의미한다. 
+> 머스테치 외의 템플릿 엔진으로는 JSP 등이 있다
+>
+> 1. resources -> templates 디렉터리에서 마우스 오른쪽 버튼 누르고 New -> File
+> 2. 확장자는 -> 파일명.mustache 
+> 
+> 머스테치 파일의 기본 위치는 src > main > resources > templates 
+>
+> 
+> 1. 머스테치 플러그인을 설치하기 위해 
+> 2. File -> Settings 클릭 후, 왼쪽 목록에서 plugins 선택하고 오른쪽에 Marketplace 탭을 클릭 후 mustache 를 검색한다.
+> 3. 검색 결과에서 Handlebars/Mustache 선택하고 install
+>
+> 빈 화면에 파일명.mustache 파일이 뜬다
+> 1. 제일 윗줄에 doc 입럭한 후 Tab 키를 누르면 기본 HTML 코드가 자동으로 작성된다
+
+<br>
+<br>
+<br>
+
+___
+#### 한글 깨짐 현상
+> src > main > resources > application.properties 파일에 아래 코드 추가
+```
+server.servlet.encoding.force=true
+```
+
+<br>
+
+___
+
+#### 어노테이션(Annotation)이란?
+> 어노테이션은 소스 코드에 추가하는 메타데이터의 한 종류로, 프로그램이 처리할 데이터가 아니라 컴파일 및 실행 과정에서 코드의 동작을 안내하는 추가 정보이다.
+자바에서는 @ 기호를 사용하여 어노테이션을 표시한다.
+
+
+#### addAttribute() 메서드 
+```
+model.addAttribute("변수명","변숫값");
+```
+
+###### 적용코드
+
+```
+@Controller
+public class FirstController  {
+    @GetMapping("/test")
+    public String niceToMeetYou (Model model){ 
+        //model 객체 받아오기
+
+        model.addAttribute("username","user");
+
+        return "greetings"; 
+        //greetings.mustache 파일 변환
+    }
+}
+```
