@@ -192,3 +192,39 @@ DTO를 그대로 DB에 저장하면 보안 문제 발생 가능 (ex. 비밀번�
 #### 👉 결론:
 > ✅ 리포지터리는 DB 관리를 쉽게 해주고,<br>
 > ✅ DTO는 웹 요청 데이터와 DB 데이터를 분리하는 역할을 한다! 🚀
+
+
+---
+
+#### 📌 ArticleRepository란?
+> ArticleRepository는 JPA에서 제공하는 CrudRepository 인터페이스를 상속받아 엔티티(Article)를 관리하는 리포지터리
+
+> 이를 통해 데이터 생성(Create), 조회(Read), 수정(Update), 삭제(Delete) 기능을 쉽게 구현할 수 있다 
+
+```
+package com.example.firstproject.repository;
+
+import com.example.firstproject.entity.Article;
+import org.springframework.data.repository.CrudRepository;
+
+public interface ArticleRepository extends CrudRepository<Article, Long> {
+}
+
+```
+#### ✅ CrudRepository<T, ID>란?
+> JPA에서 제공하는 인터페이스로 기본적인 CRUD 기능(생성, 조회, 수정, 삭제)을 자동으로 제공
+
+#### ✅ 제네릭(<>) 안의 두 가지 요소
+> Article → 관리할 엔티티 클래스
+
+> Long → 엔티티의 고유 식별자(id) 타입
+
+#### ✅ 이점
+> SQL 없이 간단한 코드만으로 데이터 관리 가능
+
+> 직접 구현할 필요 없이 JPA가 자동으로 처리
+
+#### 👉 결론: CrudRepository를 상속하면 DB 조작이 간편해진다! 🚀
+
+#### 즉 ArticleRepository는 CrudRepository 가 제공하는 기능을 별도 정의 없이 그대로 사용할 수 있다
+#### DB에서 데이터를 생성하고 읽고 수정하고 삭제하는 기본 동작을 추가 코드로 구현할 필요없이 CrudRepository 에서 상속받아 사용가능 
