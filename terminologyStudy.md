@@ -170,7 +170,7 @@ JPA는 자바 애플리케이션에서 데이터베이스와 상호작용할 수
 레포지토리 - 엔티티가 DB속 테이블에 저장 및 관리될 수 있게 하는 인터페이스
 
 @Entity 어노테이션
-JPA에서 제공하는 어노테이션으로 이 어노테이션이 붙은 클래스를 기반으로 DB
+JPA에서 제공하는 어노테이션으로 이 어노테이션이 붙은 클래스를 기반으로 DB 속 테이블이 생성된다 
 
 ---
 
@@ -228,3 +228,28 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 
 #### 즉 ArticleRepository는 CrudRepository 가 제공하는 기능을 별도 정의 없이 그대로 사용할 수 있다
 #### DB에서 데이터를 생성하고 읽고 수정하고 삭제하는 기본 동작을 추가 코드로 구현할 필요없이 CrudRepository 에서 상속받아 사용가능 
+
+<br>
+
+#### @Autowired
+> 스프링 부트에서 제공하는 어노테이션으로 이를 컨트롤러의 필드에 붙이면 스프링 부트가 만들어 놓은 객체를 가져와 주입해 준다. 이를 의존성 주입 (DI, Dependency Injection)
+
+<br>
+
+#### H2 DB 접속하는 방법
+1. 설정 파일 수정
+    > src/main/resources/application.properties 파일에서 H2 웹 콘솔을 활성화
+    ```
+    # H2 DB에 웹 콘솔로 접근할 수 있도록 허용
+    spring.h2.console.enabled=true
+    ```
+2. 서버 재시작 & 웹 브라우저 접속
+    > 변경 사항을 반영하기 위해 서버 재시작 하고 웹 브라우저에서 localhost:8080/h2-console 접속
+
+3. JDBC URL 확인 및 입력
+    >   JDBC URL은 서버 실행마다 변경되므로 최신 값 입력 필요<br>
+        JDBC URL 찾는 방법:<br>
+        인텔리제이 RUN 탭 열기<br>
+        command + F로 jdbc 검색<br>
+        jdbc:h2:mem:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx 값을 복사<br>
+        H2 콘솔 (localhost:8080/h2-console)의 JDBC URL에 붙여넣기<br>
