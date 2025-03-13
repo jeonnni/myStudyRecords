@@ -253,3 +253,13 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
         command + F로 jdbc 검색<br>
         jdbc:h2:mem:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx 값을 복사<br>
         H2 콘솔 (localhost:8080/h2-console)의 JDBC URL에 붙여넣기<br>
+
+<br>
+
+#### 롬복
+> 코드를 간소화해 주는 라이브러리 <br/>
+> getter(), setter(), constructor(), toString() 과 같은 필수 메서드를 매번 작성하는 것. 그런 반복을 없애기 위해 나온 도구가 롬복.
+
+*장점*
+1. 필수 코드를 간편하게 작성할 수 있음
+2. 로깅 기능을 통해 println() 문을 개선할 수 있음 
