@@ -256,14 +256,14 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 
 <br>
 
-#### 롬복
+## 롬복
 > 롬복 lombok → 자바 코드의 간소화를 위해 getter, setter, constructor, toString 등의 필수 메서드를 자동으로 생성해주는 라이브러리로, 로깅 기능을 통해 println() 문을 개선할 수 있다.
 
 > 로깅 logging → 프로그램의 수행 과정을 기록으로 남기는 것을 말한다 
 
 > 리팩터링 refactoring → 코드의 기능은 변함이 없이 코드 구조 또는 성능을 개선하는 작업
 
-####  리팩터링하기
+##  리팩터링하기
 
 1. build.gradle 코끼리 모양의 파일을 클릭한다 
 2. 코드 중간에 `dependencies` 여기 안에 아래 코드 추가한다
@@ -323,3 +323,115 @@ public class ArticleForm {
 }
 
 ```
+
+#### 엔티티도 마찬가지로 리팩터링한다.
+> @AllArgsConstructor → 생성자를 대채하는 어노테이션 추가 작업
+
+> @ToString → 메서드를 대체하는 어노테이션 추가 작업
+
+
+<br>
+<br>
+<br>
+
+
+## 📌 `println()` 대신 로깅 기능 사용하기
+
+### 🔹 로깅이란?
+
+로깅은 **자동차 블랙박스**와 같다.
+
+🚗 블랙박스가 자동차에서 일어나는 모든 순간을 기록하듯이,
+
+🖥 서버에서도 **로깅 기능**을 이용하면 **발생한 모든 이벤트를 기록**할 수 있다.
+
+### 🧐 `println()`과 로깅의 차이
+
+| 구분 | `println()` | 로깅 (`log.info()`) |
+| --- | --- | --- |
+| 출력 방식 | 콘솔에 즉시 출력 | 로그 파일 또는 콘솔에 기록 |
+| 데이터 저장 | X (다시 볼 수 없음) | O (나중에도 확인 가능) |
+| 활용도 | 단순 확인용 | 디버깅, 에러 추적, 성능 분석 |
+
+---
+
+## 📝 코드 변경: `println()` → 로깅
+
+### 📌 기존 코드 (`println()` 사용)
+
+```java
+java
+복사편집
+System.out.println(form.toString()); // DTO에 폼 데이터가 잘 담겼는지 확인
+System.out.println(article.toString()); // 엔티티 변환 확인
+System.out.println(saved.toString()); // DB 저장 후 반환된 엔티티 확인
+
+```
+
+### ✅ 변경 코드 (`log.info()` 사용)
+
+```java
+java
+복사편집
+log.info(form.toString()); // DTO에 폼 데이터가 잘 담겼는지 확인
+log.info(article.toString()); // 엔티티 변환 확인
+log.info(saved.toString()); // DB 저장 후 반환된 엔티티 확인
+
+```
+
+## 🛠 전체 코드 (로깅 적용 완료)
+
+```java
+java
+복사편집
+package com.example.firstproject.controller;
+
+import com.example.firstproject.dto.ArticleForm;
+import com.example.firstproject.entity.Article;
+import com.example.firstproject.repository.ArticleRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Slf4j // 로깅 기능 추가
+@Controller
+public class ArticleController {
+
+    @Autowired // 스프링이 자동으로 Repository 객체 주입
+    private ArticleRepository articleRepository;
+
+    @GetMapping("/articles/new")
+    public String newArticleForm() {
+        return "articles/new";
+    }
+
+    @PostMapping("/articles/create")
+    public String createArticle(ArticleForm form) {
+        // 📝 1. DTO에 폼 데이터가 잘 담겼는지 확인
+        log.info(form.toString());
+
+        // 📝 2. DTO → 엔티티 변환
+        Article article = form.toEntity();
+        log.info(article.toString());
+
+        // 📝 3. DB에 엔티티 저장
+        Article saved = articleRepository.save(article);
+        log.info(saved.toString());
+
+        return "";
+    }
+}
+
+```
+
+---
+
+## 🎯 정리
+
+- `println()` 대신 `log.info()` 사용하면 **데이터를 기록하고 나중에도 확인 가능**
+- `@Slf4j` 어노테이션을 추가하면 `log.info()` 사용 가능
+- 로그는 **디버깅, 에러 분석, 성능 모니터링** 등에 유용하게 활용됨
+
+이제 서버에서 무슨 일이 일어났는지 **블랙박스처럼 기록하고 확인할 수 있음!** 🚀
