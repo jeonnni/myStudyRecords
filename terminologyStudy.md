@@ -257,9 +257,69 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 <br>
 
 #### 롬복
-> 코드를 간소화해 주는 라이브러리 <br/>
-> getter(), setter(), constructor(), toString() 과 같은 필수 메서드를 매번 작성하는 것. 그런 반복을 없애기 위해 나온 도구가 롬복.
+> 롬복 lombok → 자바 코드의 간소화를 위해 getter, setter, constructor, toString 등의 필수 메서드를 자동으로 생성해주는 라이브러리로, 로깅 기능을 통해 println() 문을 개선할 수 있다.
 
-*장점*
-1. 필수 코드를 간편하게 작성할 수 있음
-2. 로깅 기능을 통해 println() 문을 개선할 수 있음 
+> 로깅 logging → 프로그램의 수행 과정을 기록으로 남기는 것을 말한다 
+
+> 리팩터링 refactoring → 코드의 기능은 변함이 없이 코드 구조 또는 성능을 개선하는 작업
+
+####  리팩터링하기
+
+1. build.gradle 코끼리 모양의 파일을 클릭한다 
+2. 코드 중간에 `dependencies` 여기 안에 아래 코드 추가한다
+    
+    `compileOnly 'org.projectlombok:lombok'annotationProcessor 'org.projectlombok:lombok'`
+    
+3. 편집에 나타난 코끼리를 누른다. 그럼 자동으로 롬복관련 라이브러리를 인터넷에서 자동으로 다운로드됨
+    
+    
+
+DTO 리팩터링 하는 법
+
+1. `Constructor` 간소화 하기 
+    1. **기존 생성자 삭제**
+        - `Generate -> Constructor` 로 추가한 생성자 전체 제거
+    2. **어노테이션 추가**
+        - `@AllArgsConstructor` 추가
+    3. **자동 생성자 적용**
+        - 클래스 내부 모든 필드를 포함하는 생성자가 자동 생성됨
+    
+    ```java
+    @AllArgsConstructor //어노테이션 추가
+    public class ArticleForm {
+     private String title;  
+     private String content; 
+     
+    //    public ArticleForm(String content, String title) {
+    //        this.content = content;
+    //        this.title = title;
+    //    } 생성자 삭제
+    }
+    
+    ```
+    
+
+ 2. `toString()` 간소화 하기 
+
+1. **기존 `toString()` 메서드 삭제**
+2. **`@ToString` 어노테이션 추가**
+    - 클래스 내부 모든 필드를 자동으로 문자열 변환
+
+```java
+@AllArgsConstructor
+@ToString //어노테이션 추가 
+public class ArticleForm {
+    private String title;
+    private String content;
+
+    // 데이터를 잘 받았는지 확인할 toString() 메서드 (Generate.. -> toString)
+//    @Override
+//    public String toString() {
+//        return "ArticleForm{" +
+//                "title='" + title + '\'' +
+//                ", content='" + content + '\'' +
+//                '}';
+//    }  메서드 전체 삭제 
+}
+
+```
