@@ -443,3 +443,42 @@ public class ArticleController {
 4. @AllArgsConstructor → 클래스 안쪽의 모든 필드를 매개변수로 하는 생성자를 만드는 어노테이션. 이를 사용하면 클래스 내의 별도의 생성자를 만들지 않아도 된다 
 5. @ToString → toString() 메서드를 사용하는 것과 동일. 별도의 toString() 메서드를 사용하지 않아도 됨
 6. @Slf4j → Simple Logging Facade for java의 약자로 로깅할때 사용됨. 로깅 기능으로 로그를 찍으면 나중에라도 그동안 찍힌 로그를 찾아볼 수 있다. 로그를 찍을 때는 log.info() 문을 사용함
+
+---
+
+
+<br>
+<br>
+<br>
+
+
+#### 뷰 페이지에서 머스테치 문법인 이중중괄호를 이용해 출력한다 {{}}
+`#`으로 열고 `/`를 이용해 닫는다 HTML의 시작태그와 종료태그처럼!
+
+```
+        {{#article}}
+        <tr>
+            <th>{{id}}</th>
+            <td>{{title}}</td>
+            <td>{{content}}</td>
+        </tr>
+        {{/article}}
+```
+
+#### 기본생성자
+##### 기본 생성자란 생성자인데 매개변수가 아무것도 없는 생성자를 말함 
+> 기본 생성자 역시 롬복으로 간단하게 줄일 수 있음 `@NoArgsConstructor`
+```
+    @NoArgsConstructor <!--기본 생성자 추가 어노테이션-->
+    @ToString
+    @AllArgsConstructor
+    @Entity
+    public class Article {
+
+        // 기본 생성자 
+        <!-- Article(){
+            
+        } -->    
+    }
+    
+```
