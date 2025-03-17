@@ -452,8 +452,8 @@ public class ArticleController {
 <br>
 
 
-#### 뷰 페이지에서 머스테치 문법인 이중중괄호를 이용해 출력한다 {{}}
-`#`으로 열고 `/`를 이용해 닫는다 HTML의 시작태그와 종료태그처럼!
+* ### 뷰 페이지에서 머스테치 문법인 이중중괄호를 이용해 출력한다 {{}}
+    * `#`으로 열고 `/`를 이용해 닫는다 HTML의 시작태그와 종료태그처럼!
 
 ```
         {{#article}}
@@ -465,9 +465,9 @@ public class ArticleController {
         {{/article}}
 ```
 
-#### 기본생성자
-##### 기본 생성자란 생성자인데 매개변수가 아무것도 없는 생성자를 말함 
-> 기본 생성자 역시 롬복으로 간단하게 줄일 수 있음 `@NoArgsConstructor`
+* ### 기본생성자
+    *  기본 생성자란 생성자인데 매개변수가 아무것도 없는 생성자를 말함 
+        > 기본 생성자 역시 롬복으로 간단하게 줄일 수 있음 `@NoArgsConstructor`
 ```
     @NoArgsConstructor <!--기본 생성자 추가 어노테이션-->
     @ToString
@@ -481,4 +481,27 @@ public class ArticleController {
         } -->    
     }
     
+```
+
+* ### 데이터 조회 요청 접수
+    * 1. @PathVariable -> URL 요청으로 들어온 전달값을 컨트롤러의 매개변수로 가져오는 어노테이션
+    * 2. 매개변수로 id 받아오기 */
+
+```
+/*
+    @GetMapping("/articles/{id}")
+    public String show(@PathVariable Long id, Model model){
+        log.info("id :"+ id);
+
+
+        <!-- 리파지터리에서 DB에 저장된 데이터를 id로 조회할 때 findById() 메서드를 사용한다. id 값이 없으면 null 반환되도록 -> orElse(null) 메서드 -->
+        Article articleEntity = articleRepository.findById(id).orElse(null);
+
+
+        <!-- 모델에 데이터 등록하기 (id로 DB에서 조회한 데이터는 article 이라는 이름으로 articleEntity 등록) -->
+        model.addAttribute("article", articleEntity);
+
+
+        return "articles/show";
+    }
 ```
