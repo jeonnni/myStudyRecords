@@ -505,3 +505,50 @@ public class ArticleController {
         return "articles/show";
     }
 ```
+
+---
+
+<br>
+<br>
+<br>
+<br>
+
+#### findAll() 메서드가 반환하는 데이터 타입은 Iterable인데 작성한 타입은 List다.
+#### 불일치 하기 떄문에 오류가 발생해서 `Iterable<Article>` -> `List<Article>` 로 다운 캐스팅 해야 된다.
+```
+List<Article> articleEntityList = articleRepository.findAll(); 
+
+```
+
+> 캐스팅(casting) 이란 데이터 타입을 변환하는 것을 말하며 형변환이라고도 한다. 
+넓은 범위를 업캐스팅(upcasting) 좁은 범위를 다운캐스팅(downcasting)이라 한다
+
+> 오버라이딩(Overriding) 이란 상위 클래스가 가지고 있는 메서드를 하위 클래스가 재정의해서 사용하는 것을 말한다.
+
+<br>
+
+해결 방법 [1] Iterable 을 List로 다운캐스팅 하기.
+```
+List<Article> articleEntityList = (List<Article>) articleRepository.findAll(); 
+```
+
+
+해결 방법 [2] List를 Iterable로 업캐스팅 하기.
+```
+Iterable<Article> articleEntityList = articleRepository.findAll(); 
+```
+
+해결 방법 [3] Iterable 이 아닌 ArrayList 타입을 반환하도록 수정하기.
+> repository > ArticleRepository 열고 블록 공간안에 마우스 오른쪽 클릭 -> Generate -> Override Methods 클릭 후 findAll():Iterable<T> 선택 하고 아래처럼 코드 수정 
+```
+public interface ArticleRepository extends CrudRepository <Article, Long>{
+    @Override
+    ArrayList<Article> findAll();
+    //Iterable<Article> findAll(); 위 코드로 수정!
+}
+```
+
+<br/>
+
+## findAll()
+findAll() 메서드는 JPA의 CrudRepository가 기본적으로 제공하는 메서드 중 하나로, 해당 엔티티를 `*모두*` 가져와 Iterable<T> 타입으로 반환한다.
